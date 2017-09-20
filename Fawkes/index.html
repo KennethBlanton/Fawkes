@@ -1,0 +1,264 @@
+<html>
+<html>
+ <head>
+  <script src="js/three.js"></script>
+  <script src="js/renderers/Projector.js"></script>
+  <script src="js/renderers/CanvasRenderer.js"></script>
+
+  <script src="js/libs/stats.min.js"></script>     
+     <style>
+      body {
+        font-family: Monospace;
+        background-color: #f0f0f0;
+        margin: 0px;
+        overflow: hidden;
+        height:100%;
+      }
+      div {
+        position:absolute;
+        z-index:1;
+        opacity:1;
+      }
+/*      div.active {
+        z-index:1;
+        opacity:1;
+      }*/
+      button{
+        position:static;
+        /*position:absolute;
+        bottom: 0;
+        left: 30%;*/
+        z-index:98;
+      }
+      a {
+        text-decoration:none;
+        color:#ddd;
+      }
+      .back {
+        left:20%;
+      }
+      .background1,.background2,.background3,.overlay {
+        position:absolute;
+        z-index:100;
+        width:100%;
+        background-image:url(img/background.png);
+        background-size:cover;
+        
+        transform:translateX(0%);
+        transition:.7s all;
+      }
+      .overlay {
+        z-index:99;
+        transform:translateY(-70%);
+        opacity:0;
+        pointer-events:none;
+        background-image:none;
+        background-color:rgba(20,20,20,.7);
+        /*transition:.5 all;*/
+      }
+      .overlay.active {
+        transform:translateY(0%);
+        opacity:1;
+        pointer-events:unset;
+      }
+      .background1.active,.background3.active {
+        transform: translateX(-100%);;
+      }
+      .background2 {
+        background-image:url(img/caught/Background.png);
+        transform:rotate(180deg);
+      }
+      .background1 .text,.background3 .text, .overlay .text {
+        position:relative; 
+        top:50%;
+        transform:translate(0,-70%);
+        display:flex;
+        flex-direction:column;
+        text-align:center;
+        width:80%;
+        margin:0 auto;
+      }
+      .overlay .text {
+        top: 38%;
+        transform:translate(0,-70%);
+
+      }
+      .overlay .text p {
+        position:absolute;
+        opacity:0;
+        transform:translateX(-50%);
+        transition:.5s all;
+      }
+      .text p.active {
+        opacity:1;
+        transform:translateX(0%);
+      }
+      .background1 p , .background1 h3,.background1 p , .background1 h3,.background3 p , .background3 h3,.background3 p , .background3 h3, .overlay p {
+        color:#ddd;
+      }
+      .background1 p, .background1 a,.background3 p, .background3 a, .overlay p {
+        font-size:2vw;
+      }
+      .background1 p,.background3 p {
+        margin-top:-10px;
+      }
+      .background1 h3,.background3 h3 {
+        font-size:4vw;
+      }
+      .background3 {
+        z-index:99;
+      }
+      .background1 a,.background2 a {
+        padding: 10px 5px;
+        background:rgba(204,143,53,.5);
+        width:200px;
+        margin:0 auto;
+        border-radius:5px;
+        margin-top:20px;
+        transition:.3s all;
+      }
+      .background1 a:hover {
+        background:rgba(204,143,53,.8);
+      }
+      .cloud {
+        transform:rotate(180deg);
+      }
+      .barrel {
+        width:300px;
+        position:relative;
+        top:50%;
+        left:50%;
+        transform:translate(-69%,0%) rotate(180deg);
+      }
+      .buttons {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        margin-top: -20px;
+      }
+      .back {
+        margin-right:20px;
+      }
+      .back,.forward {
+        margin-bottom:20px;
+      }
+      .open-overlay {
+        z-index: 98;
+        position: absolute;
+        top: 0;
+        right: 0%;
+        transform: translate(-100%,50%);
+        color: #ddd;
+        font-size: 5vw;
+      }
+      .overlay .text {
+
+      }
+      .overlay p {
+        transition:.9s all;
+      }
+      .bridgeClick {
+        position: absolute;
+        width: 46%;
+        height: 20%;
+        top: 0%;
+        left: 50%;
+        transform: translate(-57%,48%);
+      }
+      .buildingClick {
+        width: 10%;
+        height: 10%;
+        transform: rotate(90deg);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-82%,48%) rotate(90deg);
+      }
+      /*.overlay p.active {
+        opacity:1;
+        transform:translateX(0%);
+      }*/
+    </style>
+ </head>
+ <body>
+  <div class="background1">
+      <div class=text>
+        <h3>You must be 14 or older to Enter</h3>
+        <p>This site is contains: Adult themes and situations that may be 
+        considered too distressing for younger or more sensitive viewers, 
+        injury detail, Detailed criminal acts, Scenes of horror, 
+        threat, and danger and their intensity on audience members.
+        </p>
+        <a class='enter' href='#'>Enter</a>
+      </div>
+  </div>
+   <div class="background3">
+      <div class=text>
+        <p>In 1605, 5 young men planned to blow up the Houses of Parliament. Among them was Guy Fawkes, Britain’s most notorious traitor. 
+        </p>
+      </div>
+  </div>
+
+  <!-- <div class="background2">
+      <div class='cloud'><img src="img/clouds.png" alt=""></div>
+      <div class='barrel'><img src="img/barrel.png" alt=""></div>
+
+  </div> -->
+<!--   <div class="background3"></div> -->
+  <div class='container'>
+<!--     <div class="caught"></div>
+    <div class="buildings"></div>
+    <div class="bridge"></div>
+    <div class="death"></div>
+    <div class="hallway"></div>
+    <div class="king"></div>
+    <div class="sentence"></div>
+    <div class="torture active"></div> -->
+  
+  </div>
+    <div class='open-overlay'>?</div>
+    <div class="overlay">
+      
+      <div class='text'>
+        <p class='bridge-words'>Catholicism in England was heavily repressed under Queen Elizabeth I, particularly after the pope excommunicated her in 1570.  During her reign, dozens of priests were put to death, and Catholics could not even legally celebrate Mass or be married according to their own rites.</p>
+        <p class='buildings-words'>The plot was set for Nov. 5, 1605, and in the preceding days, the conspirators rented a cellar underneath the building, where Fawkes successfully stashed 36 barrels of gunpowder.</p>
+        <p class='caught-words'>A search party discovered him lurking in the vaults beaneath the house of lords. He was just hours away from blowing up the fabric of the English state</p>
+        <p class='king-words'>that night  he was brought before the King. when asked, why he wanted to blow-up Parliament &amp;  kill the King  with so many barrels of gunpowder.  He reportedly said:
+
+        To blow you Scotch beggars back to your own native mountains!
+        </p>
+        <p class='sentence-words'> Lorem Ipsum Dolor where Lorem Ipsum Dolor the Lorem Ipsum Dolor fuck Lorem Ipsum Dolor is Lorem Ipsum Dolor my Lorem Ipsum Dolor copy </p>
+        <p class='hallway-words'>The first examination of GuyFaukes,  under the assumed name of John Johnson. Particulars of his past life; served Thos. Percy; details of the intended Plot; refuses to reveal the names of the conspirators …. Fawkes’s silence continued to 6 November…
+        </p>
+        <p class='torture-words'>After 3 days of torture, Fawkes confessed and his surviving co-conspirators were all found guilty of high treason and sentenced to death in January 1606, by hanging, drawing and quartering.
+        </p>
+        <p class='death-words'>Fawkes  evaded his sentence by quickly managing his way to the hanging scaffold and jumping purposely managing to land on his neck.
+        </p>  
+    </div>
+  </div>
+  <div class="buttons">
+    <div class="bridgeClick"></div>
+    <div class="buildingClick"></div>
+         <a href='#' class='back'><img src="img/leftArrow.png" alt=""></a><a href="#" class='forward'><img src="img/rightArrow.png" alt=""></a>
+  </div>
+
+   
+<!--  <script src ='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenLite.min.js'></script> -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
+ <script src="myjs/load.js"></script>
+ <script src="myjs/clickHandler.js"></script>
+ <script src='myjs/clouds.js'></script>
+<script src="myjs/caught.js"></script>
+<script src="myjs/buildings.js"></script>
+<script src="myjs/bridge.js"></script>
+<script src="myjs/death.js"></script>
+<script src="myjs/hallway.js"></script>
+<script src="myjs/king.js"></script>
+<script src="myjs/torture.js"></script>
+<script src="myjs/sentence.js"></script>
+  <script src="myjs/start.js"></script>
+
+
+ </body>
+</html>
